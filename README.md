@@ -15,6 +15,10 @@ or here, https://github.com/philipperemy/timit
 * python 3.5+
 * numpy 1.15.4
 * librosa 0.6.1
+* webrtcvad
+* pydub
+
+WebRTC VAD and pydub are required to run the real-time speaker identification application.
 
 The python WebRTC VAD found at https://github.com/wiseman/py-webrtcvad is required to create run dvector_create.py, but not to train the neural network.
 
@@ -56,6 +60,30 @@ Only TI-SV is implemented.
 ```
 EER across 10 epochs: 0.0377
 ```
+
+# Real-time speaker identification
+
+Place the enrollment data for each speaker at `dataset/chihweif/train_wav/[speaker_id]/*.wav`.
+
+Run
+```
+python ./my_preprocess_data.py
+```
+to preprocess the enrollment audio samples. The preprocessed data will be located at `dataset/chihweif/train_npy`.
+
+Run
+```
+python ./my_enroll_speaker.py [model path] dataset/chihweif/train_npy
+```
+to create embedding vector of each speaker.
+
+After enrollment run
+```
+python ./my_realtime.py [model path] dataset/chihweif/enroll
+```
+to perform real-time speaker identification.
+
+
 
 # D vector embedding creation
 
