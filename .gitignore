@@ -1,0 +1,7 @@
+__pycache__
+.ipynb_checkpoints
+.vscode
+dataset
+speech_id_checkpoint
+test_tisv
+train_tisv
