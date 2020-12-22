@@ -5,3 +5,5 @@ dataset
 speech_id_checkpoint
 test_tisv
 train_tisv
+TIMIT
+model.model

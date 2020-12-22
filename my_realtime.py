@@ -58,7 +58,7 @@ class AudioHandler(object):
         self.FORMAT = pyaudio.paFloat32
         self.CHANNELS = 1
         self.RATE = hp.data.sr
-        self.CHUNK = 16000
+        self.CHUNK = 8000
         self.p = None
         self.stream = None
         self.identifier = identifier
@@ -66,7 +66,7 @@ class AudioHandler(object):
     def start(self):
         self.p = pyaudio.PyAudio()
         self.vad = webrtcvad.Vad()
-        self.vad.set_mode(0)
+        self.vad.set_mode(2)
         self.stream = self.p.open(format=self.FORMAT,
                                   channels=self.CHANNELS,
                                   rate=self.RATE,
@@ -81,10 +81,9 @@ class AudioHandler(object):
 
     def callback(self, in_data, frame_count, time_info, flag):
         np_arr = np.frombuffer(in_data, dtype=np.float32)
-
-        vad_arr = np_arr.astype(np.int16).tobytes()
+        vad_arr = (np_arr * 32768).astype(np.int16).tobytes()
         vad_arr = vad_arr[:int(2*hp.data.sr*30/1000)]
-        active = self.vad.is_speech(in_data[:int(2*hp.data.sr*30/1000)], hp.data.sr)
+        active = self.vad.is_speech(vad_arr, hp.data.sr)
         if not active:
             print('silence')
             return None, pyaudio.paContinue
