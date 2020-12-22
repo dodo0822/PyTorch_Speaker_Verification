@@ -7,7 +7,7 @@ from hparam import hparam as hp
 from pydub import AudioSegment
 
 # downloaded dataset path
-base_path = './DODO/train_wav/'
+base_path = './dataset/chihweif/train_wav/'
 audio_path = os.listdir(base_path)
 
 def match_target_amplitude(sound, target_dBFS):
@@ -21,7 +21,7 @@ def save_spectrogram_tisv():
         Need : utterance data set (VTCK)
     """
     print("start text independent utterance feature extraction")
-    os.makedirs('./DODO/train_npy/', exist_ok=True)   # make folder to save train file
+    os.makedirs('./dataset/chihweif/train_npy/', exist_ok=True)   # make folder to save train file
 
     utter_min_len = (hp.data.tisv_frame * hp.data.hop + hp.data.window) * hp.data.sr    # lower bound of utterance length
     total_speaker_num = len(audio_path)
@@ -55,7 +55,7 @@ def save_spectrogram_tisv():
 
         utterances_spec = np.array(utterances_spec)
         print(utterances_spec.shape)
-        np.save(os.path.join('DODO/train_npy/', "%s.npy" % folder), utterances_spec)
+        np.save(os.path.join('dataset/chihweif/train_npy/', "%s.npy" % folder), utterances_spec)
         
 if __name__ == '__main__':
     save_spectrogram_tisv()

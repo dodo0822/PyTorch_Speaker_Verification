@@ -15,7 +15,7 @@ parser.add_argument('model', type=str,
 parser.add_argument('data', type=str,
                     help='utterance data path')
 
-os.makedirs('./DODO/enroll/', exist_ok=True)
+os.makedirs('./dataset/chihweif/enroll/', exist_ok=True)
 
 args = parser.parse_args()
 print('Using model path: %s' % args.model)
@@ -43,4 +43,4 @@ for npy_file in npy_files:
     results = results.cpu().detach().numpy()
     emb = np.mean(results, axis=0)
     
-    np.save('./DODO/enroll/%s.npy' % speaker_id, emb)
+    np.save('./dataset/chihweif/enroll/%s.npy' % speaker_id, emb)
